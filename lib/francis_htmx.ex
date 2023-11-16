@@ -4,14 +4,13 @@ defmodule FrancisHtmx do
       unmatched(fn _ -> "not found" end)
     end
   end
-
-  defmacro htmx(content, opts \\ []) do
+  defmacro htmx(content, opts\\[]) do
     quote location: :keep do
-      get("/", fn _conn -> unquote(root(content, opts)) end)
+      get("/", fn conn -> root(unquote(content).(conn), unquote(opts)) end)
     end
   end
 
-  defp root(content, opts) do
+  def root(content, opts) when is_binary(content) do
     title = Keyword.get(opts, :title, "")
 
     """

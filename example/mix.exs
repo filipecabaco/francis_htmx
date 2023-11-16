@@ -22,7 +22,7 @@ defmodule Example.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:francis_htmx, "~> 0.0.1"}
+      {:francis_htmx, path: "../"}
     ]
   end
 end
