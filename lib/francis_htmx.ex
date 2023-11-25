@@ -7,7 +7,7 @@ defmodule FrancisHtmx do
 
   defmacro sigil_E(content, _opts \\ []) do
     unless Macro.Env.has_var?(__CALLER__, {:assigns, nil}) do
-      raise "~H requires a variable named \"assigns\" to exist and be set to a map"
+      raise "~E requires a variable named \"assigns\" to exist and be set to a map"
     end
 
     quote do
