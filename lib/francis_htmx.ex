@@ -1,12 +1,19 @@
 defmodule FrancisHtmx do
-  defmacro __using__(_opts \\ []) do
-    quote location: :keep do
-      unmatched(fn _ -> "not found" end)
-    end
-  end
-  defmacro htmx(content, opts\\[]) do
+  defmacro htmx(content, opts \\ []) do
     quote location: :keep do
       get("/", fn conn -> root(unquote(content).(conn), unquote(opts)) end)
+    end
+  end
+
+  defmacro sigil_E(content, _opts \\ []) do
+    unless Macro.Env.has_var?(__CALLER__, {:assigns, nil}) do
+      raise "~H requires a variable named \"assigns\" to exist and be set to a map"
+    end
+
+    quote do
+      unquote(content)
+      |> EEx.eval_string([assigns: var!(assigns)], engine: Phoenix.HTML.Engine)
+      |> then(fn {:safe, content} -> Enum.join(content) end)
     end
   end
 

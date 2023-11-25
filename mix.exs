@@ -33,6 +33,7 @@ defmodule FrancisHtmx.MixProject do
   defp deps do
     [
       {:francis, "~> 0.1"},
+      {:phoenix_html, "~> 3.3"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
