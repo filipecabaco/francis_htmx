@@ -34,6 +34,8 @@ defmodule FrancisHtmx.MixProject do
     [
       {:francis, "~> 0.1"},
       {:phoenix_html, "~> 3.3"},
+      {:req, "~> 0.4.5", only: :test},
+      {:floki, "~> 0.35.2", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
@@ -47,7 +49,7 @@ defmodule FrancisHtmx.MixProject do
       files: ["lib", "test", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Filipe Cabaço"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/filipecabaco/francis"}
+      links: %{"GitHub" => "https://github.com/filipecabaco/francis_htmx"}
     ]
   end
 
