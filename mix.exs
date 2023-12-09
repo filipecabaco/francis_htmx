@@ -1,6 +1,6 @@
 defmodule FrancisHtmx.MixProject do
   use Mix.Project
-  @version "0.0.1"
+  @version "0.1.0"
   def project do
     [
       name: "Francis HTMX",
@@ -61,6 +61,6 @@ defmodule FrancisHtmx.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test"]
   defp elixirc_paths(_), do: ["lib"]
 end

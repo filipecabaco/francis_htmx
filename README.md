@@ -1,7 +1,23 @@
 # FrancisHtmx
+[![Hex version badge](https://img.shields.io/hexpm/v/francis_htmx.svg)](https://hex.pm/packages/francis_htmx)
+[![License badge](https://img.shields.io/hexpm/l/repo_example.svg)](https://github.com/filipecabaco/francis_htmx/blob/master/LICENSE.md)
+[![Elixir CI](https://github.com/filipecabaco/francis_htmx/actions/workflows/elixir.yaml/badge.svg)](https://github.com/filipecabaco/francis_htmx/actions/workflows/elixir.yaml)
 
-Module to use HTMX with Francis
+Simple helper function to add a new htmx macro that can be used by Francis to provide a simple HTMX server.
 
+It also uses ~E that is implemented similarly to ~H sigil from Phoenix Liveview to load information into templates.
+
+## Installation
+If available in Hex, the package can be installed by adding francis to your list of dependencies in mix.exs:
+
+```elixir
+def deps do
+  [
+    {:francis_htmx, "~> 0.1.0"}
+  ]
+end
+```
+## Usage
 ```elixir
 defmodule Example do
   use Francis
