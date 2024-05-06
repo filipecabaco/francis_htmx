@@ -9,7 +9,18 @@ defmodule FrancisHtmxTest do
 
       assert html
              |> Floki.find("script")
-             |> Floki.attribute("src") == ["https://unpkg.com/htmx.org/dist/htmx.js"]
+             |> Floki.attribute("src") == [
+               "https://cdn.tailwindcss.com",
+               "https://unpkg.com/htmx.org/dist/htmx.js"
+             ]
+
+      assert html
+             |> Floki.find("link")
+             |> Floki.attribute("href") == ["/app.css"]
+
+      assert html
+             |> Floki.find("title")
+             |> Floki.text() == "Testing HTMX"
 
       assert html
              |> Floki.find("body")
@@ -23,11 +34,18 @@ defmodule FrancisHtmxTestHandler do
   use Francis
   import FrancisHtmx
 
-  htmx(fn _ ->
-    assigns = %{title: "test"}
+  htmx(
+    fn _ ->
+      assigns = %{title: "test"}
 
-    ~E"""
-    <div><%= @title %></div>
+      ~E"""
+      <div><%= @title %></div>
+      """
+    end,
+    title: "Testing HTMX",
+    head: """
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/app.css" rel="stylesheet">
     """
-  end)
+  )
 end

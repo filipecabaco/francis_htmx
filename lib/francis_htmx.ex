@@ -42,6 +42,7 @@ defmodule FrancisHtmx do
   @spec htmx((Plug.Conn.t() -> binary()), Keyword.t()) :: Macro.t()
   defmacro htmx(content, opts \\ []) do
     title = Keyword.get(opts, :title, "")
+    head = Keyword.get(opts, :head, "")
 
     quote location: :keep do
       get("/", fn conn ->
@@ -49,8 +50,10 @@ defmodule FrancisHtmx do
         <!DOCTYPE html>
         <html>
           <head>
-            <title>#{unquote(title)}</title>
+            #{unquote(head)}
+
             <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+            <title>#{unquote(title)}</title>
           </head>
           <body>
             #{unquote(content).(conn)}
