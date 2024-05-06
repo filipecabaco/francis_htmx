@@ -39,10 +39,27 @@ defmodule FrancisHtmx do
   @doc """
   Renders htmx content by loading htmx.js and rendering binary content.
   """
+  @spec htmx((Plug.Conn.t() -> binary()), Keyword.t()) :: Macro.t()
   defmacro htmx(content, opts \\ []) do
+    title = Keyword.get(opts, :title, "")
+    head = Keyword.get(opts, :head, "")
+
     quote location: :keep do
       get("/", fn conn ->
-        root(unquote(content).(conn), unquote(opts))
+        """
+        <!DOCTYPE html>
+        <html>
+          <head>
+            #{unquote(head)}
+
+            <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+            <title>#{unquote(title)}</title>
+          </head>
+          <body>
+            #{unquote(content).(conn)}
+          </body>
+        </html>
+        """
       end)
     end
   end
@@ -52,35 +69,19 @@ defmodule FrancisHtmx do
 
   Requires a variable named "assigns" to exist and be set to a map.
   """
+  @spec sigil_E(String.t(), Keyword.t()) :: Macro.t()
   defmacro sigil_E(content, _opts \\ []) do
     unless Macro.Env.has_var?(__CALLER__, {:assigns, nil}) do
       raise "~E requires a variable named \"assigns\" to exist and be set to a map"
     end
 
     quote location: :keep do
-      unquote(content)
-      |> EEx.eval_string([assigns: var!(assigns)], engine: Phoenix.HTML.Engine)
-      |> then(fn {:safe, content} -> Enum.join(content) end)
+      content =
+        EEx.eval_string(unquote(content), [assigns: var!(assigns)], engine: Phoenix.HTML.Engine)
+
+      content
+      |> Phoenix.HTML.html_escape()
+      |> Phoenix.HTML.safe_to_string()
     end
-  end
-
-  @doc """
-  Renders the root content with htmx.js loaded required for the htmx/1 macro.
-  """
-  def root(content, opts) when is_binary(content) do
-    title = Keyword.get(opts, :title, "")
-
-    """
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>#{title}</title>
-        <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
-      </head>
-      <body>
-        #{content}
-      </body>
-    </html>
-    """
   end
 end
