@@ -4,7 +4,12 @@ defmodule FrancisHtmxTest do
 
   describe "htmx/1" do
     test "renders html content with htmx loaded and renders assigns" do
-      body = Req.get!("/", plug: FrancisHtmxTestHandler).body
+      response = Req.get!("/", plug: FrancisHtmxTestHandler)
+
+      assert response.status == 200
+      assert response.headers["content-type"] == ["text/html; charset=utf-8"]
+
+      body = response.body
       html = Floki.parse_document!(body)
 
       assert html
