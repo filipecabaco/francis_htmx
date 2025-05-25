@@ -46,7 +46,9 @@ defmodule FrancisHtmx do
 
     quote location: :keep do
       get("/", fn conn ->
-        """
+        conn
+        |> Plug.Conn.put_resp_content_type("text/html")
+        |> Plug.Conn.send_resp(200, """
         <!DOCTYPE html>
         <html>
           <head>
@@ -59,7 +61,7 @@ defmodule FrancisHtmx do
             #{unquote(content).(conn)}
           </body>
         </html>
-        """
+        """)
       end)
     end
   end
